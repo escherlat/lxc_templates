@@ -1,0 +1,45 @@
+# Template used to create this container: /usr/share/lxc/templates/lxc-centos
+# Parameters passed to the template: --release=7
+# For additional config options, please look at lxc.container.conf(5)
+#lxc.network.type = phys
+#lxc.network.link - eth0
+lxc.rootfs = /opt/lxc_instances/c7_cpanel/rootfs
+
+# Include common configuration
+lxc.include = /usr/share/lxc/config/fedora.common.conf
+
+lxc.arch = x86_64
+lxc.utsname = c7_cpanel.kpower.me
+
+lxc.autodev = 1
+lxc.kmsg = 0
+
+# When using LXC with apparmor, uncomment the next line to run unconfined:
+lxc.aa_profile = unconfined
+
+# example simple networking setup, uncomment to enable
+lxc.network.type = veth
+lxc.network.name = veth0
+lxc.network.flags = up
+lxc.network.link = lxc-bridge
+lxc.network.veth.pair = veth0-c7
+lxc.network.ipv4 = 172.17.42.10/24
+lxc.network.ipv4.gateway = 172.17.42.1
+
+#lxc.network.link = lxcbr0
+#lxc.network.name = eth0
+# Additional example for veth network type
+#    static MAC address,
+lxc.network.hwaddr = 00:16:3e:77:52:20
+#    persistent veth device name on host side
+#        Note: This may potentially collide with other containers of same name!
+#lxc.network.veth.pair = v-c7_cpanel-e0
+
+# Drop capabilities to fix bug with C7
+lxc.cap.drop = mac_admin mac_override 
+# temporary remove
+#setfcap
+
+# Give me Logging!
+lxc.logfile = /var/log/lxc/c7_config.log
+lxc.loglevel = DEBUG
