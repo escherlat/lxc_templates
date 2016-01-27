@@ -1,0 +1,27 @@
+# Template used to create this container: /usr/share/lxc/templates/lxc-download
+# Parameters passed to the template: -d centos -r 6 -a amd64
+# For additional config options, please look at lxc.container.conf(5)
+
+# Distribution configuration
+lxc.include = /usr/share/lxc/config/centos.common.conf
+lxc.include = /usr/share/lxc/config/centos.userns.conf
+lxc.arch = x86_64
+
+# Container specific configuration
+lxc.id_map = u 0 100000 65536
+lxc.id_map = g 0 100000 65536
+lxc.rootfs = /opt/lxc_instances/c6_cpanel/rootfs
+lxc.utsname = c6_cpanel
+
+# Network configuration
+lxc.network.type = veth
+lxc.network.name = veth0
+lxc.network.flags = up
+lxc.network.link = lxc-bridge
+lxc.network.veth.pair = veth0-c6
+lxc.network.ipv4 = 172.17.42.11/24
+lxc.network.ipv4.gateway = 172.17.42.1
+
+# Give me Logging!
+lxc.logfile = /var/log/lxc/c6_config.log
+lxc.loglevel = DEBUG
